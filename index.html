@@ -1,181 +1,316 @@
 <!doctype html>
 <html lang="th">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>ข้อความถึงเธอ</title>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+<title>Congratulations</title>
 
-  <link href="https://fonts.googleapis.com/css2?family=Fahkwang:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Fahkwang:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 
-  <style>
-    *{
-      box-sizing:border-box;
-      font-family:'Fahkwang', sans-serif;
-    }
+<style>
+/* ---------------- RESET ---------------- */
+*{
+  box-sizing:border-box;
+  font-family:'Fahkwang', sans-serif;
+  -webkit-tap-highlight-color: transparent;
+}
+html,body{
+  margin:0;
+  height:100%;
+  overflow:hidden;
+}
 
-    body{
-      margin:0;
-      background:#fff2f5;
-    }
+/* ---------------- PAGE ---------------- */
+.page{
+  width:100vw;
+  height:100vh;
+  display:none;
+  background-size:cover;
+  background-position:center;
+}
+.page.active{
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+}
 
-    .container{
-      min-height:100vh;
-      display:flex;
-      align-items:center;
-      justify-content:center;
-      padding:20px;
-    }
+/* ---------------- BUTTON ---------------- */
+.btn{
+  padding:14px 28px;
+  border-radius:28px;
+  font-size:18px;
+  cursor:pointer;
+}
+.btn-main{
+  background:#3e8b57;
+  color:#fff;
+  border:none;
+}
+.btn-next{
+  background:#fff;
+  color:#000;
+  border:2px solid #000;
+}
+.btn-row{
+  display:flex;
+  gap:14px;
+  margin-top:12px;
+}
 
-    .shell{
-      background:#ffffff;
-      border-radius:28px;
-      box-shadow:0 20px 40px rgba(0,0,0,.12);
-      padding:40px 28px;
-      width:100%;
-      max-width:360px;
-      text-align:center;
-    }
+/* ---------------- LETTER ---------------- */
+.letter{
+  width:92%;
+  max-width:460px;
+  cursor:pointer;
+}
+.text{
+  color:#fff;
+  font-size:20px;
+  margin-top:6px;
+}
 
-    h4{
-      margin:0 0 6px;
-      font-weight:600;
-    }
+/* ---------------- POPUP ---------------- */
+.popup{
+  position:fixed;
+  inset:0;
+  background:rgba(0,0,0,.6);
+  display:none;
+  align-items:center;
+  justify-content:center;
+  z-index:20;
+}
+.popup img{
+  width:92%;
+  max-width:500px;
+  animation:burst .45s cubic-bezier(.2,1.4,.4,1);
+}
+@keyframes burst{
+  from{transform:scale(.15);opacity:0}
+  to{transform:scale(1);opacity:1}
+}
 
-    .subtle{
-      color:#777;
-      font-size:14px;
-      margin-bottom:18px;
-    }
+/* ---------------- SCRATCH ---------------- */
+#scratchWrap{
+  position:relative;
+  width:92%;
+  max-width:460px;
+}
+#scratchImg{width:100%}
+#scratchCanvas{
+  position:absolute;
+  inset:0;
+}
 
-    .letter-img{
-      width:180px;
-      user-select:none;
-      margin-bottom:22px;
-    }
+#successText{
+  display:none;
+  margin-top:20px;
+  font-size:26px;
+  color:#fff;
+  animation:pop 1s ease infinite alternate;
+}
+@keyframes pop{
+  from{transform:scale(1)}
+  to{transform:scale(1.1)}
+}
+#nextScratch{
+  display:none;
+  margin-top:14px;
+}
 
-    /* ===============================
-       ปุ่มเรียงซ้าย - ขวา
-       =============================== */
-    .btn-row{
-      display:flex;
-      gap:12px;
-      justify-content:center;
-    }
+/* ---------------- FINAL PAGE ---------------- */
+.final-wrap{
+  position:relative;
+  width:92%;
+  max-width:460px;
+  transform:translateY(-90px); /* ⭐ ขยับขึ้นเล็กน้อย ตรงกลางพอดี */
+}
 
-    .btn{
-      flex:1;
-      padding:12px 10px;
-      border-radius:999px;
+#finalPic{
+  width:100%;
+  animation:floatPic 4s ease-in-out infinite;
+}
 
-      /* 🔥 ขอบปุ่มบางลง */
-      border:1px solid #000;
+#finalText{
+  position:absolute;
+  top:-60%;
+  left:0;
+  width:100%;
+  animation:textIn 1.4s ease;
+}
 
-      background:#ffffff;
-      font-size:14px;
-      cursor:pointer;
-      transition:.2s;
-    }
+@keyframes textIn{
+  from{
+    opacity:0;
+    transform:translateY(-40px) scale(.9);
+  }
+  to{
+    opacity:1;
+    transform:translateY(0) scale(1);
+  }
+}
+@keyframes floatPic{
+  0%,100%{transform:translateY(0)}
+  50%{transform:translateY(12px)}
+}
 
-    .btn:hover{
-      background:#fbe1ea;
-    }
+/* ---------------- FIREWORK ---------------- */
+.pyro{
+  position:fixed;
+  inset:0;
+  pointer-events:none;
+  display:none;
+  z-index:15;
+}
+.pyro > .before,
+.pyro > .after{
+  position:absolute;
+  width:5px;
+  height:5px;
+  border-radius:50%;
+  box-shadow:0 0 #fff;
+  animation:
+    1s bang ease-out infinite backwards,
+    1s gravity ease-in infinite backwards,
+    5s position linear infinite backwards;
+}
+.pyro > .after{
+  animation-delay:1.25s,1.25s,1.25s;
+  animation-duration:1.25s,1.25s,6.25s;
+}
 
-    .btn.secondary{
-      background:#fff;
-    }
-
-    /* ===============================
-       MODAL
-       =============================== */
-    .modal-backdrop{
-      position:fixed;
-      inset:0;
-      background:rgba(0,0,0,.45);
-      display:none;
-      align-items:center;
-      justify-content:center;
-      padding:20px;
-    }
-
-    .modal-backdrop.show{
-      display:flex;
-    }
-
-    .modal{
-      background:#fff;
-      border-radius:26px;
-      padding:28px 24px;
-      width:100%;
-      max-width:340px;
-      text-align:center;
-      animation:pop .25s ease;
-    }
-
-    @keyframes pop{
-      from{
-        transform:scale(.9);
-        opacity:0;
-      }
-      to{
-        transform:scale(1);
-        opacity:1;
-      }
-    }
-
-    .row{
-      margin-top:18px;
-    }
-  </style>
+@keyframes bang{
+  to{
+    box-shadow:
+      40px -80px hsl(10,100%,50%),
+      -60px -20px hsl(40,100%,50%),
+      70px 30px hsl(200,100%,50%),
+      -80px 50px hsl(120,100%,50%),
+      0px -100px hsl(300,100%,50%);
+  }
+}
+@keyframes gravity{
+  to{
+    transform:translateY(200px);
+    opacity:0;
+  }
+}
+@keyframes position{
+  0%,19.9%{margin-top:10%;margin-left:40%}
+  20%,39.9%{margin-top:40%;margin-left:30%}
+  40%,59.9%{margin-top:20%;margin-left:70%}
+  60%,79.9%{margin-top:30%;margin-left:20%}
+  80%,99.9%{margin-top:30%;margin-left:80%}
+}
+</style>
 </head>
 
 <body>
 
-  <div class="container">
-    <div class="shell">
+<!-- PAGE 1 -->
+<section class="page active" id="page1" style="background-image:url(bg1.png)">
+  <img src="letter1.png" class="letter" id="letter">
+  <div class="text" id="letterText">แตะเพื่อเปิดจดหมาย</div>
 
-      <h4>ข้อความถึงเธอ</h4>
-      <p class="subtle" id="hintText">แตะที่ซองจดหมายเพื่อเปิด</p>
-
-      <img
-        src="assets/letter1.png"
-        alt="letter"
-        class="letter-img"
-        id="openLetter"
-      />
-
-      <div class="btn-row">
-        <button class="btn" id="readBtn">แตะจดหมาย</button>
-        <a class="btn secondary" href="menu.html">ย้อนกลับ</a>
-      </div>
-
-    </div>
+  <div class="btn-row" id="letterBtns" style="display:none">
+    <button class="btn btn-main" onclick="openPopup()">ดูข้อความ</button>
+    <button class="btn btn-next" onclick="goPage(2)">ถัดไป</button>
   </div>
+</section>
 
-  <!-- MODAL -->
-  <div class="modal-backdrop" id="modalBackdrop">
-    <div class="modal">
-      <h3>ข้อความถึงเธอ</h3>
-      <p id="letterText">ขอบคุณที่เข้ามาอ่านข้อความนี้ 💗</p>
-      <div class="row">
-        <button class="btn" id="closeModalBtn">ปิด</button>
-      </div>
-    </div>
+<!-- POPUP -->
+<div class="popup" id="popup" onclick="closePopup()">
+  <img src="letter4.png">
+</div>
+
+<!-- PAGE 2 -->
+<section class="page" id="page2" style="background-image:url(bg2.png)">
+  <div id="scratchWrap">
+    <img src="pic1.png" id="scratchImg">
+    <canvas id="scratchCanvas"></canvas>
   </div>
+  <div id="successText"></div>
+  <button class="btn btn-next" id="nextScratch" onclick="goPage(3)">ถัดไป</button>
+</section>
 
-  <script>
-    const modal = document.getElementById('modalBackdrop');
-    const readBtn = document.getElementById('readBtn');
-    const closeBtn = document.getElementById('closeModalBtn');
-    const letter = document.getElementById('openLetter');
+<!-- PAGE 3 -->
+<section class="page" id="page3" style="background-image:url(bg3.png)">
+  <div class="final-wrap">
+    <img src="text.png" id="finalText">
+    <img src="pic2.png" id="finalPic">
+  </div>
+</section>
 
-    function openModal(){
-      modal.classList.add('show');
+<!-- FIREWORK -->
+<div class="pyro" id="pyro">
+  <div class="before"></div>
+  <div class="after"></div>
+</div>
+
+<script>
+/* ---------- PAGE 1 ---------- */
+let step=0;
+const letter=document.getElementById("letter");
+const letterText=document.getElementById("letterText");
+const letterBtns=document.getElementById("letterBtns");
+
+letter.onclick=()=>{
+  step++;
+  if(step===1){
+    letter.src="letter2.png";
+    letterText.textContent="แตะอีกครั้ง";
+  }else if(step===2){
+    letter.src="letter3.png";
+    letterText.style.display="none";
+    letterBtns.style.display="flex";
+    letter.onclick=openPopup;
+  }
+};
+
+function openPopup(){ popup.style.display="flex"; }
+function closePopup(){ popup.style.display="none"; }
+
+function goPage(n){
+  document.querySelectorAll(".page").forEach(p=>p.classList.remove("active"));
+  document.getElementById("page"+n).classList.add("active");
+  if(n===2) initScratch();
+}
+
+/* ---------- SCRATCH ---------- */
+function initScratch(){
+  const c = scratchCanvas;
+  const ctx = c.getContext("2d");
+
+  c.width = scratchImg.clientWidth;
+  c.height = scratchImg.clientHeight;
+
+  ctx.fillStyle="#fff";
+  ctx.fillRect(0,0,c.width,c.height);
+  ctx.globalCompositeOperation="destination-out";
+
+  let down=false, cleared=0;
+
+  function draw(x,y){
+    ctx.beginPath();
+    ctx.arc(x,y,30,0,Math.PI*2);
+    ctx.fill();
+    cleared++;
+    if(cleared>320){
+      successText.style.display="block";
+      nextScratch.style.display="block";
+      pyro.style.display="block";
     }
+  }
 
-    readBtn.onclick = openModal;
-    letter.onclick = openModal;
-    closeBtn.onclick = () => modal.classList.remove('show');
-  </script>
+  c.onpointerdown=()=>down=true;
+  c.onpointerup=()=>down=false;
+  c.onpointermove=e=>{
+    if(!down) return;
+    const r=c.getBoundingClientRect();
+    draw(e.clientX-r.left, e.clientY-r.top);
+  };
+}
+</script>
 
 </body>
 </html>
