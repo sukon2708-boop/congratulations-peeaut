@@ -14,11 +14,16 @@
   font-family:'Fahkwang', sans-serif;
   -webkit-tap-highlight-color: transparent;
 }
-html,body{margin:0;height:100%;overflow:hidden}
+html,body{
+  margin:0;
+  height:100%;
+  overflow:hidden;
+}
 
 /* ---------------- PAGE ---------------- */
 .page{
-  width:100vw;height:100vh;
+  width:100vw;
+  height:100vh;
   display:none;
   background-size:cover;
   background-position:center;
@@ -92,7 +97,10 @@ html,body{margin:0;height:100%;overflow:hidden}
   max-width:460px;
 }
 #scratchImg{width:100%}
-#scratchCanvas{position:absolute;inset:0}
+#scratchCanvas{
+  position:absolute;
+  inset:0;
+}
 
 #successText{
   display:none;
@@ -110,17 +118,19 @@ html,body{margin:0;height:100%;overflow:hidden}
   margin-top:14px;
 }
 
-/* ---------------- FINAL ---------------- */
+/* ---------------- FINAL PAGE ---------------- */
 .final-wrap{
   position:relative;
   width:92%;
   max-width:460px;
-  margin-top:-40px;
+  transform:translateY(-70px); /* ⭐ ขยับขึ้นเล็กน้อย ตรงกลางพอดี */
 }
+
 #finalPic{
   width:100%;
   animation:floatPic 4s ease-in-out infinite;
 }
+
 #finalText{
   position:absolute;
   top:-42%;
@@ -128,16 +138,23 @@ html,body{margin:0;height:100%;overflow:hidden}
   width:100%;
   animation:textIn 1.4s ease;
 }
+
 @keyframes textIn{
-  from{opacity:0;transform:translateY(-40px) scale(.9)}
-  to{opacity:1;transform:translateY(0) scale(1)}
+  from{
+    opacity:0;
+    transform:translateY(-40px) scale(.9);
+  }
+  to{
+    opacity:1;
+    transform:translateY(0) scale(1);
+  }
 }
 @keyframes floatPic{
   0%,100%{transform:translateY(0)}
   50%{transform:translateY(12px)}
 }
 
-/* ---------------- PYRO FIREWORK ---------------- */
+/* ---------------- FIREWORK ---------------- */
 .pyro{
   position:fixed;
   inset:0;
@@ -162,7 +179,6 @@ html,body{margin:0;height:100%;overflow:hidden}
   animation-duration:1.25s,1.25s,6.25s;
 }
 
-/* RANDOM SHADOW PARTICLES */
 @keyframes bang{
   to{
     box-shadow:
@@ -213,7 +229,7 @@ html,body{margin:0;height:100%;overflow:hidden}
     <img src="pic1.png" id="scratchImg">
     <canvas id="scratchCanvas"></canvas>
   </div>
-  <div id="successText"></div>
+  <div id="successText">เก่งมาก! 🎉</div>
   <button class="btn btn-next" id="nextScratch" onclick="goPage(3)">ถัดไป</button>
 </section>
 
@@ -250,8 +266,9 @@ letter.onclick=()=>{
     letter.onclick=openPopup;
   }
 };
-function openPopup(){popup.style.display="flex"}
-function closePopup(){popup.style.display="none"}
+
+function openPopup(){ popup.style.display="flex"; }
+function closePopup(){ popup.style.display="none"; }
 
 function goPage(n){
   document.querySelectorAll(".page").forEach(p=>p.classList.remove("active"));
@@ -261,10 +278,12 @@ function goPage(n){
 
 /* ---------- SCRATCH ---------- */
 function initScratch(){
-  const c=scratchCanvas;
-  const ctx=c.getContext("2d");
-  c.width=scratchImg.clientWidth;
-  c.height=scratchImg.clientHeight;
+  const c = scratchCanvas;
+  const ctx = c.getContext("2d");
+
+  c.width = scratchImg.clientWidth;
+  c.height = scratchImg.clientHeight;
+
   ctx.fillStyle="#fff";
   ctx.fillRect(0,0,c.width,c.height);
   ctx.globalCompositeOperation="destination-out";
@@ -282,13 +301,14 @@ function initScratch(){
       pyro.style.display="block";
     }
   }
+
   c.onpointerdown=()=>down=true;
   c.onpointerup=()=>down=false;
   c.onpointermove=e=>{
-    if(!down)return;
+    if(!down) return;
     const r=c.getBoundingClientRect();
-    draw(e.clientX-r.left,e.clientY-r.top);
-  }
+    draw(e.clientX-r.left, e.clientY-r.top);
+  };
 }
 </script>
 
